@@ -40,3 +40,6 @@ message("✓ Cleaned 2022 CFPS data")
 
 source("scripts_tidy/08_merge.r")
 message("✓ Merged all CFPS data")
+
+source("scripts_tidy/09_spouse.r")
+message("✓ Added spouse variables")

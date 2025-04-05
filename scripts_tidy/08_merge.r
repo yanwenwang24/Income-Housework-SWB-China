@@ -23,7 +23,3 @@ cfps_1022 <- bind_rows(
   cfps_2020,
   cfps_2022
 )
-
-# 2 Save merged data ------------------------------------------------------
-
-saveRDS(cfps_1022, "data_clean/cfps_1022.rds")
