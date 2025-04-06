@@ -2,7 +2,8 @@
 .DS_Store
 .vscode
 
-# Data and models
+# Data, models, and outputs
 data_raw/
 data_clean/
 models/
+outputs/
