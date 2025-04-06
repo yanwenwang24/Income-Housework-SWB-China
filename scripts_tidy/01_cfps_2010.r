@@ -87,7 +87,7 @@ individual_df <- cfps_2010_adult %>%
       cfps2010edu_best == 2 ~ "primary or less",
       cfps2010edu_best == 3 ~ "middle school",
       cfps2010edu_best == 4 ~ "high school",
-      cfps2010edu_best == 5 ~ "some college",
+      cfps2010edu_best == 5 ~ "college or higher",
       cfps2010edu_best == 6 ~ "college or higher",
       cfps2010edu_best == 7 ~ "college or higher",
       cfps2010edu_best == 8 ~ "college or higher",

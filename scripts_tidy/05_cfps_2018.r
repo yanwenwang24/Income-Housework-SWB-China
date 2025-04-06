@@ -92,7 +92,7 @@ demography_df <- cfps_2018_roster %>%
       tb4_a18_p == 2 ~ "primary or less",
       tb4_a18_p == 3 ~ "middle school",
       tb4_a18_p == 4 ~ "high school",
-      tb4_a18_p == 5 ~ "some college",
+      tb4_a18_p == 5 ~ "college or higher",
       tb4_a18_p == 6 ~ "college or higher",
       tb4_a18_p == 7 ~ "college or higher",
       tb4_a18_p == 8 ~ "college or higher",
