@@ -53,6 +53,38 @@ sample_df <- sample_df %>%
   # Remove intermediate variables
   select(-income_capped, -income_sp_capped)
 
+# Visualize income division
+p_dist_income <- ggplot(
+  sample_df,
+  aes(x = income_prop, fill = income_role)
+) +
+  geom_histogram(
+    binwidth = 0.05,
+    color = "white",
+    alpha = 0.7,
+    position = "identity"
+  ) +
+  scale_x_continuous(
+    breaks = seq(0, 1, 0.1)
+  ) +
+  scale_fill_brewer(
+    palette = "Set2",
+    name = "Income Role"
+  ) +
+  labs(
+    x = "Wife's proportion of couple income",
+    y = "Count"
+  )
+
+# Save the plot
+ggsave(
+  "outputs/dist_income.png",
+  p_dist_income,
+  width = 8,
+  height = 6,
+  dpi = 300
+)
+
 # 2 Housework -------------------------------------------------------------
 
 # Top cap housework hours at 99th percentile
@@ -86,6 +118,38 @@ sample_df <- sample_df %>%
   ) %>%
   # Remove intermediate variables
   select(-housework_hour_capped, -housework_hour_sp_capped)
+
+# Visualize housework division
+p_dist_housework <- ggplot(
+  sample_df,
+  aes(x = housework_prop, fill = housework_role)
+) +
+  geom_histogram(
+    binwidth = 0.05,
+    color = "white",
+    alpha = 0.7,
+    position = "identity"
+  ) +
+  scale_x_continuous(
+    breaks = seq(0, 1, 0.1)
+  ) +
+  scale_fill_brewer(
+    palette = "Set2",
+    name = "Housework Role"
+  ) +
+  labs(
+    x = "Wife's proportion of couple housework",
+    y = "Count"
+  )
+
+# Save the plot
+ggsave(
+  "outputs/dist_housework.png",
+  p_dist_housework,
+  width = 8,
+  height = 6,
+  dpi = 300
+)
 
 # 3 Combined division -----------------------------------------------------
 
