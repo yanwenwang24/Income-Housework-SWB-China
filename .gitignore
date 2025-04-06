@@ -6,4 +6,4 @@
 data_raw/
 data_clean/
 models/
-outputs/
+outputs/**/*.rds
