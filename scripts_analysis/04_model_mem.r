@@ -51,6 +51,7 @@ summ(mod_men, digits = 3)
 
 # 1.3 Save models ---------------------------------------------------------
 
+# Save models
 saveRDS(
   list(
     mod_women = mod_women,
@@ -58,6 +59,10 @@ saveRDS(
   ),
   "models/mods_mem.rds"
 )
+
+# Read models
+mod_women <- readRDS("models/mods_mem.rds")$mod_women
+mod_men <- readRDS("models/mods_mem.rds")$mod_men
 
 # 2 Prediction ------------------------------------------------------------
 

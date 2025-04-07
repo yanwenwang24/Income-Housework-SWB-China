@@ -109,6 +109,7 @@ performance::check_collinearity(mod_men)
 
 # 2.3 Save models ----------------------------------------------------------
 
+# Save models
 saveRDS(
   list(
     mod_women = mod_women,
@@ -116,6 +117,10 @@ saveRDS(
   ),
   "models/mods_hybrid.rds"
 )
+
+# Read models
+mod_women <- readRDS("models/mods_hybrid.rds")$mod_women
+mod_men <- readRDS("models/mods_hybrid.rds")$mod_men
 
 # 3 Prediction ------------------------------------------------------------
 
