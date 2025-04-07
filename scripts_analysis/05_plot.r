@@ -14,25 +14,7 @@
 
 # 1 Load data --------------------------------------------------------------
 
-pred_df <- readRDS("outputs/pred_hybrid.rds")
-
-pred_df <- pred_df %>%
-  mutate(
-    role = factor(
-      role,
-      levels = c(
-        "Egal/Egal",
-        "Egal/Trad",
-        "Egal/NonTrad",
-        "Trad/Egal",
-        "Trad/Trad",
-        "Trad/NonTrad",
-        "NonTrad/Egal",
-        "NonTrad/Trad",
-        "NonTrad/NonTrad"
-      )
-    )
-  )
+pred_df <- readRDS("outputs/pred_lsat.rds")
 
 # 2 Plot -------------------------------------------------------------------
 

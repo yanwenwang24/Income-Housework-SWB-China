@@ -9,12 +9,12 @@
 ## ------------------------------------------------------------------------
 ##
 ## Notes:
-## Hybrid models using Mundlak specification to separate within- and between-
-## couple effects of household roles on life satisfaction.
+## Mixed-effects models using Mundlak specification to separate within- and
+## between-couple effects of household roles on life satisfaction.
 ## The script:
 ## 1. Creates dummy variables for combined roles
 ## 2. Calculates within-couple means and deviations
-## 3. Fits hybrid models for women and men
+## 3. Fits mixed-effects models for women and men
 ## 4. Generates predictions for different role categories
 ## 5. Saves models and predictions for visualization
 ##
@@ -83,7 +83,7 @@ f_women <- as.formula(paste(
   role_predictors,
   " + age_h_std + age_w_std + age_h_std_sq + age_w_std_sq + educ_h + educ_w +
   hukou_h + hukou_w + migrant_h + migrant_w + chronic_h + chronic_w +
-  n_children + homeownership + hh_income_p_log +",
+  cohabit + n_children + homeownership + hh_income_p_log +",
   "(1 | pid)"
 ))
 
@@ -92,7 +92,7 @@ f_men <- as.formula(paste(
   role_predictors,
   " + age_std + age_sp_std + age_std_sq + age_sp_std_sq + educ + educ_sp +
   hukou + hukou_sp + migrant + migrant_sp + chronic + chronic_sp +
-  n_children + homeownership + hh_income_p_log +",
+  cohabit + n_children + homeownership + hh_income_p_log +",
   "(1 | pid)"
 ))
 
@@ -101,8 +101,8 @@ f_men <- as.formula(paste(
 mod_women <- lmer(f_women, data = sample_df)
 mod_men <- lmer(f_men, data = sample_df)
 
-summ(mod_women, digits = 3)
-summ(mod_men, digits = 3)
+summ(mod_women, digits = 2)
+summ(mod_men, digits = 2)
 
 performance::check_collinearity(mod_women)
 performance::check_collinearity(mod_men)
@@ -115,12 +115,12 @@ saveRDS(
     mod_women = mod_women,
     mod_men = mod_men
   ),
-  "models/mods_hybrid.rds"
+  "models/mods.rds"
 )
 
 # Read models
-mod_women <- readRDS("models/mods_hybrid.rds")$mod_women
-mod_men <- readRDS("models/mods_hybrid.rds")$mod_men
+mod_women <- readRDS("models/mods.rds")$mod_women
+mod_men <- readRDS("models/mods.rds")$mod_men
 
 # 3 Prediction ------------------------------------------------------------
 
@@ -210,11 +210,27 @@ level_men <- all_preds_men %>%
 pred_men <- bind_rows(baseline_men, level_men) %>%
   mutate(gender = "men")
 
-# 3.3 Save predictions -----------------------------------------------------
+# 3.3 Save predictions ----------------------------------------------------
 
-pred_df <- bind_rows(pred_women, pred_men)
+pred_df <- bind_rows(pred_women, pred_men) %>%
+  mutate(
+    role = factor(
+      role,
+      levels = c(
+        "Egal/Egal",
+        "Egal/Trad",
+        "Egal/NonTrad",
+        "Trad/Egal",
+        "Trad/Trad",
+        "Trad/NonTrad",
+        "NonTrad/Egal",
+        "NonTrad/Trad",
+        "NonTrad/NonTrad"
+      )
+    )
+  )
 
 saveRDS(
   pred_df,
-  "outputs/pred_hybrid.rds"
+  "outputs/pred_lsat.rds"
 )
