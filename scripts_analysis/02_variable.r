@@ -22,6 +22,10 @@
 
 # 1 Income ----------------------------------------------------------------
 
+# Define thresholds
+low_band <- 0.35
+high_band <- 0.65
+
 # Top cap income at 99th percentile
 income_capped <- quantile(sample_df$income, 0.99, na.rm = TRUE)
 income_sp_capped <- quantile(sample_df$income_sp, 0.99, na.rm = TRUE)
@@ -40,14 +44,14 @@ sample_df <- sample_df %>%
   ) %>%
   # Calculate income division
   mutate(
-    income_prop = income_capped / (income_capped + income_sp_capped)
+    income_w_prop = income_capped / (income_capped + income_sp_capped)
   ) %>%
   # Categorize income division
   mutate(
     income_role = case_when(
-      income_prop > 0.6 ~ "NonTrad",
-      income_prop >= 0.4 & income_prop <= 0.6 ~ "Egal",
-      income_prop < 0.4 ~ "Trad"
+      income_w_prop > high_band ~ "NonTrad",
+      income_w_prop >= low_band & income_w_prop <= high_band ~ "Egal",
+      income_w_prop < low_band ~ "Trad"
     )
   ) %>%
   # Remove intermediate variables
@@ -56,7 +60,7 @@ sample_df <- sample_df %>%
 # Visualize income division
 p_dist_income <- ggplot(
   sample_df,
-  aes(x = income_prop, fill = income_role)
+  aes(x = income_w_prop, fill = income_role)
 ) +
   geom_histogram(
     binwidth = 0.05,
@@ -105,15 +109,15 @@ sample_df <- sample_df %>%
   ) %>%
   # Calculate housework division
   mutate(
-    housework_prop = housework_hour_capped /
+    housework_w_prop = housework_hour_capped /
       (housework_hour_capped + housework_hour_sp_capped)
   ) %>%
   # Categorize housework division
   mutate(
     housework_role = case_when(
-      housework_prop < 0.4 ~ "NonTrad",
-      housework_prop >= 0.4 & housework_prop <= 0.6 ~ "Egal",
-      housework_prop > 0.6 ~ "Trad"
+      housework_w_prop < low_band ~ "NonTrad",
+      housework_w_prop >= low_band & housework_w_prop <= high_band ~ "Egal",
+      housework_w_prop > high_band ~ "Trad"
     )
   ) %>%
   # Remove intermediate variables
@@ -122,7 +126,7 @@ sample_df <- sample_df %>%
 # Visualize housework division
 p_dist_housework <- ggplot(
   sample_df,
-  aes(x = housework_prop, fill = housework_role)
+  aes(x = housework_w_prop, fill = housework_role)
 ) +
   geom_histogram(
     binwidth = 0.05,
@@ -197,6 +201,13 @@ sample_df <- sample_df %>%
   mutate(
     year = factor(year)
   ) %>%
+  # Dichotomous life satisfaction
+  mutate(
+    lsat_binary = ifelse(lsat >= 4, 1, 0),
+    lsat_sp_binary = ifelse(lsat_sp >= 4, 1, 0),
+    lsat_h_binary = ifelse(lsat_h >= 4, 1, 0),
+    lsat_w_binary = ifelse(lsat_w >= 4, 1, 0)
+  ) %>%
   # Standardize age
   mutate(
     age_std = scale(age),
@@ -207,6 +218,10 @@ sample_df <- sample_df %>%
     age_w_std = scale(age_w),
     age_h_std_sq = age_h_std^2,
     age_w_std_sq = age_w_std^2
+  ) %>%
+  # Cohabitation
+  mutate(
+    cohabit = ifelse(marital == "cohabiting", 1, 0)
   ) %>%
   # Categorize education
   mutate(
