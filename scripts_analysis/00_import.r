@@ -47,16 +47,12 @@ message("✓ Variable construction completed.")
 source("scripts_analysis/03_describe.r")
 message("✓ Descriptive statistics completed.")
 
-# 04_model_mem.r - Multilevel models
-source("scripts_analysis/04_model_mem.r")
-message("✓ Mixed-effects models completed.")
+# 04_model.r - Model
+source("scripts_analysis/04_model.r")
+message("✓ Model completed.")
 
-# 05_model_hybrid.r - Hybrid models
-source("scripts_analysis/05_model_hybrid.r")
-message("✓ Hybrid models completed.")
-
-# 06_plot.r - Plot results
-source("scripts_analysis/06_plot.r")
+# 05_plot.r - Plot results
+source("scripts_analysis/05_plot.r")
 message("✓ Plot results completed.")
 
 message("\n--- All analysis scripts ran successfully ---\n")
