@@ -48,8 +48,12 @@ steps <- list(
         filter(has_valid_partner & unique_partners == 1) %>%
         pull(pid)
 
+      different_sex <- d %>%
+        filter(female != female_sp) %>%
+        pull(pid)
+
       # Filter the original dataset
-      d %>% filter(pid %in% valid_pids)
+      d %>% filter(pid %in% valid_pids & pid %in% different_sex)
     }
   ),
   # Age range
@@ -87,7 +91,6 @@ steps <- list(
     description = "Non-missing control variables",
     filter = function(d) {
       d %>% filter(
-        female != female_sp,
         !is.na(educ), !is.na(educ_sp),
         !is.na(hukou), !is.na(hukou_sp),
         !is.na(migrant), !is.na(migrant_sp),
