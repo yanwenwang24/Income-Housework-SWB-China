@@ -232,10 +232,6 @@ sample_df <- sample_df %>%
     age_h_std_sq = age_h_std^2,
     age_w_std_sq = age_w_std^2
   ) %>%
-  # Cohabitation
-  mutate(
-    cohabit = ifelse(marital == "cohabiting", 1, 0)
-  ) %>%
   # Categorize education
   mutate(
     educ = factor(

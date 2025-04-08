@@ -78,7 +78,8 @@ individual_df <- cfps_2010_adult %>%
       qe1_best == 4 ~ "divorced",
       qe1_best == 5 ~ "widowed",
       TRUE ~ NA_character_
-    )
+    ),
+    cohabit = ifelse(marital == "cohabiting", 1, 0)
   ) %>%
   # Education
   mutate(
@@ -141,6 +142,7 @@ individual_df <- cfps_2010_adult %>%
     hukou,
     migrant,
     marital,
+    cohabit,
     educ,
     income,
     current_work,

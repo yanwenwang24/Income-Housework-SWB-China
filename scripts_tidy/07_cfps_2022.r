@@ -83,7 +83,8 @@ demography_df <- cfps_2022_roster %>%
       tb3_a22_p == 4 ~ "divorced",
       tb3_a22_p == 5 ~ "widowed",
       TRUE ~ NA_character_
-    )
+    ),
+    cohabit = ifelse(marital == "cohabiting", 1, 0)
   ) %>%
   # Education
   mutate(
@@ -110,6 +111,7 @@ demography_df <- cfps_2022_roster %>%
     hukou,
     migrant,
     marital,
+    cohabit,
     educ
   )
 
