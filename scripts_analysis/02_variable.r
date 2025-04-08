@@ -214,6 +214,13 @@ sample_df <- sample_df %>%
     lsat_h_binary = ifelse(lsat_h >= 4, 1, 0),
     lsat_w_binary = ifelse(lsat_w >= 4, 1, 0)
   ) %>%
+  # Ordinal life satisfaction
+  mutate(
+    lsat_ord = factor(lsat, levels = c(1, 2, 3, 4, 5), ordered = TRUE),
+    lsat_sp_ord = factor(lsat_sp, levels = c(1, 2, 3, 4, 5), ordered = TRUE),
+    lsat_h_ord = factor(lsat_h, levels = c(1, 2, 3, 4, 5), ordered = TRUE),
+    lsat_w_ord = factor(lsat_w, levels = c(1, 2, 3, 4, 5), ordered = TRUE)
+  ) %>%
   # Standardize age
   mutate(
     age_std = scale(age),
