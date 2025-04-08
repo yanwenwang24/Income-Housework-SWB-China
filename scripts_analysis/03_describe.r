@@ -67,6 +67,10 @@ sd(sample_df$age)
 mean(sample_df$age_sp, na.rm = TRUE)
 sd(sample_df$age_sp, na.rm = TRUE)
 
+# Cohabitation
+tabyl(sample_df, marital) %>%
+  adorn_pct_formatting(2)
+
 # Education
 tabyl(sample_df, educ) %>%
   adorn_pct_formatting(2)
