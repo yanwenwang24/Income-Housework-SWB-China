@@ -78,6 +78,9 @@ p_dist_income <- ggplot(
   labs(
     x = "Wife's proportion of couple income",
     y = "Count"
+  ) +
+  theme(
+    panel.grid.major.x = element_blank()
   )
 
 # Save the plot
@@ -144,6 +147,9 @@ p_dist_housework <- ggplot(
   labs(
     x = "Wife's proportion of couple housework",
     y = "Count"
+  ) +
+  theme(
+    panel.grid.major.x = element_blank()
   )
 
 # Save the plot
