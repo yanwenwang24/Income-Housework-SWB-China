@@ -198,7 +198,4 @@ cfps_2010 <- individual_df %>%
   left_join(n_children_df, by = "pid") %>%
   left_join(household_df, by = "fid")
 
-# Save
-saveRDS(cfps_2010, "data_clean/cfps_2010.rds")
-
 message("✓ Cleaned 2010 CFPS data")

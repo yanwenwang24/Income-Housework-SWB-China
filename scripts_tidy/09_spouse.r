@@ -71,8 +71,10 @@ for (var in sp_vars) {
   )
 }
 
+message("✓ Added spouse variables")
+
 # 2 Save merged data ------------------------------------------------------
 
 saveRDS(cfps_1022, "data_clean/cfps_1022.rds")
 
-message("✓ Added spouse variables")
+message("✓ Saved merged data")

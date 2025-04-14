@@ -245,7 +245,4 @@ cfps_2020 <- individual_df %>%
   left_join(demography_df, by = "pid") %>%
   left_join(household_df, by = "fid")
 
-# Save
-saveRDS(cfps_2020, "data_clean/cfps_2020.rds")
-
 message("✓ Cleaned 2020 CFPS data")
