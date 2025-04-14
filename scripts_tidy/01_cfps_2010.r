@@ -107,6 +107,14 @@ individual_df <- cfps_2010_adult %>%
       TRUE ~ NA_real_
     )
   ) %>%
+  # Employment status
+  mutate(
+    employ = case_when(
+      qg3 == 1 ~ "employed",
+      qg3 == 0 & qj1 == 1 ~ "unemployed",
+      qg3 == 0 & qj1 == 0 ~ "inactive"
+    )
+  ) %>%
   # Work hour per week
   mutate(
     kt2_a_1 = ifelse(kt2_a_1 < 0, 0, kt2_a_1),
@@ -146,6 +154,7 @@ individual_df <- cfps_2010_adult %>%
     educ,
     income,
     current_work,
+    employ,
     work_hour,
     housework_hour,
     lsat,

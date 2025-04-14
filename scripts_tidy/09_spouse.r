@@ -24,6 +24,7 @@ sp_vars <- c(
   "educ",
   "income",
   "current_work",
+  "employ",
   "work_hour",
   "housework_hour",
   "lsat",

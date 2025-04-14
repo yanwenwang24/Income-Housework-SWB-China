@@ -140,6 +140,14 @@ individual_df <- cfps_2012_adult %>%
       TRUE ~ NA_real_
     )
   ) %>%
+  # Employment status
+  mutate(
+    employ = case_when(
+      employ == 0 ~ "unemployed",
+      employ == 1 ~ "employed",
+      employ == 8 ~ NA
+    )
+  ) %>%
   # Life satisfaction
   mutate(
     lsat = ifelse(qn12012 < 0 | qn12012 == 79, NA_real_, qn12012)
@@ -157,6 +165,7 @@ individual_df <- cfps_2012_adult %>%
     urban,
     income,
     current_work,
+    employ,
     lsat,
     chronic
   )
