@@ -14,6 +14,8 @@
 
 # 1 Prepare spousal data --------------------------------------------------
 
+message("Preparing spousal data...")
+
 # Variables for spousal information
 sp_vars <- c(
   "female",
@@ -72,3 +74,5 @@ for (var in sp_vars) {
 # 2 Save merged data ------------------------------------------------------
 
 saveRDS(cfps_1022, "data_clean/cfps_1022.rds")
+
+message("✓ Added spouse variables")

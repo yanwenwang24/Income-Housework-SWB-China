@@ -14,6 +14,8 @@
 
 # 1 Load data -------------------------------------------------------------
 
+message("Cleaning 2016 CFPS data...")
+
 cfps_2016_adult <- read_stata("data_raw/cfps_2016_adult.dta")
 cfps_2016_family <- read_stata("data_raw/cfps_2016_family.dta")
 cfps_2016_roster <- read_stata("data_raw/cfps_2016_roster.dta")
@@ -244,3 +246,5 @@ cfps_2016 <- individual_df %>%
 
 # Save
 saveRDS(cfps_2016, "data_clean/cfps_2016.rds")
+
+message("✓ Cleaned 2016 CFPS data")

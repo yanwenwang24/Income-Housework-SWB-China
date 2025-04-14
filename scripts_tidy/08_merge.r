@@ -14,6 +14,8 @@
 
 # 1 Merge all CFPS data ---------------------------------------------------
 
+message("Merging all CFPS data...")
+
 cfps_1022 <- bind_rows(
   cfps_2010,
   cfps_2012,
@@ -23,3 +25,5 @@ cfps_1022 <- bind_rows(
   cfps_2020,
   cfps_2022
 )
+
+message("✓ Merged all CFPS data")

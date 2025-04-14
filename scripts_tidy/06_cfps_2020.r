@@ -14,6 +14,8 @@
 
 # 1 Load data -------------------------------------------------------------
 
+message("Cleaning 2020 CFPS data...")
+
 cfps_2020_person <- read_stata("data_raw/cfps_2020_person.dta")
 cfps_2020_family <- read_stata("data_raw/cfps_2020_family.dta")
 cfps_2020_roster <- read_stata("data_raw/cfps_2020_roster.dta")
@@ -245,3 +247,5 @@ cfps_2020 <- individual_df %>%
 
 # Save
 saveRDS(cfps_2020, "data_clean/cfps_2020.rds")
+
+message("✓ Cleaned 2020 CFPS data")
