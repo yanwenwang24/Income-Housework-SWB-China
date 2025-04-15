@@ -11,8 +11,8 @@
 ## Notes:
 ## Sample restriction steps:
 ## 1. Select women (since each relationship is identified twice)
-## 2. Continuously married or cohabiting
-## 3. Same partner during married/cohabiting periods
+## 2. Continuously married
+## 3. Same partner during married periods
 ## 4. Age range: 20-60
 ## 5. Non-missing housework and at least one does housework (self and spouse)
 ## 6. At least one income (self or spouse) above 0
@@ -30,30 +30,37 @@ steps <- list(
     description = "Select women",
     filter = function(d) d %>% filter(female == 1)
   ),
-  # Married or cohabiting
+  # Married
   list(
-    description = "Continuously married or cohabiting",
-    filter = function(d) d %>% filter(marital %in% c("married", "cohabiting"))
+    description = "Continuously married",
+    filter = function(d) d %>% filter(marital == "married")
   ),
   # With the same partner
   list(
-    description = "Same partner during married/cohabiting periods",
+    description = "Same partner during married periods",
     filter = function(d) {
-      valid_pids <- d %>%
+      # Drop married years with missing/blank spouse id
+      d_nonmissing <- d %>% filter(!is.na(pid_s), pid_s != "")
+
+      valid_pids <- d_nonmissing %>%
         group_by(pid) %>%
         summarize(
-          has_valid_partner = all(!is.na(pid_s) & pid_s != ""),
           unique_partners = n_distinct(pid_s)
         ) %>%
-        filter(has_valid_partner & unique_partners == 1) %>%
+        filter(unique_partners == 1) %>%
         pull(pid)
 
-      different_sex <- d %>%
+      different_sex <- d_nonmissing %>%
         filter(female != female_sp) %>%
         pull(pid)
 
-      # Filter the original dataset
-      d %>% filter(pid %in% valid_pids & pid %in% different_sex)
+      d %>%
+        filter(
+          !is.na(pid_s),
+          pid_s != "",
+          pid %in% valid_pids,
+          pid %in% different_sex
+        )
     }
   ),
   # Age range
@@ -91,6 +98,7 @@ steps <- list(
     description = "Non-missing control variables",
     filter = function(d) {
       d %>% filter(
+        !is.na(age_h), !is.na(age_w),
         !is.na(educ), !is.na(educ_sp),
         !is.na(hukou), !is.na(hukou_sp),
         !is.na(migrant), !is.na(migrant_sp),
