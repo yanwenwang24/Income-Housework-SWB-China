@@ -70,6 +70,7 @@ process_imputed_data <- function(d) {
       # At least one income > 0
       ((!is.na(income_h) & income_h > 0) | (!is.na(income_w) & income_w > 0)),
       # Non-missing life satisfaction and control variables
+      !is.na(age_h), !is.na(age_w),
       !is.na(lsat_h), !is.na(lsat_w),
       !is.na(educ_h), !is.na(educ_w),
       !is.na(hukou_h), !is.na(hukou_w),
@@ -261,7 +262,6 @@ process_imputed_data <- function(d) {
     "hukou_h", "hukou_w",
     "migrant_h", "migrant_w",
     "chronic_h", "chronic_w",
-    "cohabit",
     "n_children",
     "homeownership",
     "hh_income_p_log"
