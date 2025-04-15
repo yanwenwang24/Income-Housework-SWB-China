@@ -25,26 +25,34 @@ initial_steps <- list(
     filter = function(d) d %>% filter(female == 1)
   ),
   list(
-    description = "Continuously married or cohabiting",
-    filter = function(d) d %>% filter(marital %in% c("married", "cohabiting"))
+    description = "Continuously married",
+    filter = function(d) d %>% filter(marital == "married")
   ),
   list(
-    description = "Same partner during married/cohabiting periods",
+    description = "Same partner during married periods",
     filter = function(d) {
-      valid_pids <- d %>%
+      # Drop married years with missing/blank spouse id
+      d_nonmissing <- d %>% filter(!is.na(pid_s), pid_s != "")
+
+      valid_pids <- d_nonmissing %>%
         group_by(pid) %>%
         summarize(
-          has_valid_partner = all(!is.na(pid_s) & pid_s != ""),
           unique_partners = n_distinct(pid_s)
         ) %>%
-        filter(has_valid_partner & unique_partners == 1) %>%
+        filter(unique_partners == 1) %>%
         pull(pid)
 
-      different_sex <- d %>%
+      different_sex <- d_nonmissing %>%
         filter(female != female_sp) %>%
         pull(pid)
 
-      d %>% filter(pid %in% valid_pids & pid %in% different_sex)
+      d %>%
+        filter(
+          !is.na(pid_s),
+          pid_s != "",
+          pid %in% valid_pids,
+          pid %in% different_sex
+        )
     }
   ),
   list(
@@ -70,7 +78,6 @@ vars_for_mice <- c(
   "hukou_h", "hukou_w",
   "migrant_h", "migrant_w",
   "chronic_h", "chronic_w",
-  "cohabit",
   "n_children",
   "homeownership",
   "hh_income_p_log"
@@ -137,7 +144,7 @@ if (length(vars_to_exclude_as_predictors) > 0) {
 }
 
 # Exclude variables that should not be imputed
-vars_not_to_impute <- c("pid", "year", "female", "female_sp", "cohabit")
+vars_not_to_impute <- c("pid", "year", "female", "female_sp")
 
 vars_not_to_impute <- intersect(vars_not_to_impute, colnames(pred_matrix))
 
@@ -210,7 +217,7 @@ f_women <- as.formula(paste(
   role_predictors,
   " + age_h_std + age_w_std + age_h_std_sq + age_w_std_sq + educ_h + educ_w +
   hukou_h + hukou_w + migrant_h + migrant_w + chronic_h + chronic_w +
-  cohabit + n_children + homeownership + hh_income_p_log +",
+  n_children + homeownership + hh_income_p_log +",
   "(1 | pid)"
 ))
 
@@ -219,7 +226,7 @@ f_men <- as.formula(paste(
   role_predictors,
   " + age_h_std + age_w_std + age_h_std_sq + age_w_std_sq + educ_h + educ_w +
   hukou_h + hukou_w + migrant_h + migrant_w + chronic_h + chronic_w +
-  cohabit + n_children + homeownership + hh_income_p_log +",
+  n_children + homeownership + hh_income_p_log +",
   "(1 | pid)"
 ))
 
