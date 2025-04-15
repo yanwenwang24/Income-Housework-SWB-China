@@ -33,7 +33,7 @@ f_women <- as.formula(paste(
   "income_w_prop + housework_w_prop +",
   " age_h_std + age_w_std + age_h_std_sq + age_w_std_sq + educ_h + educ_w +
   hukou_h + hukou_w + migrant_h + migrant_w + chronic_h + chronic_w +
-  cohabit + n_children + homeownership + hh_income_p_log"
+  n_children + homeownership + hh_income_p_log"
 ))
 
 f_men <- as.formula(paste(
@@ -41,7 +41,7 @@ f_men <- as.formula(paste(
   "income_w_prop + housework_w_prop +",
   " age_h_std + age_w_std + age_h_std_sq + age_w_std_sq + educ_h + educ_w +
   hukou_h + hukou_w + migrant_h + migrant_w + chronic_h + chronic_w +
-  cohabit + n_children + homeownership + hh_income_p_log"
+  n_children + homeownership + hh_income_p_log"
 ))
 
 # 2.2 Fit models ----------------------------------------------------------
