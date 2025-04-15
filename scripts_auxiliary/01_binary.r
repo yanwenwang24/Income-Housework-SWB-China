@@ -76,18 +76,18 @@ role_predictors <- paste(c(dev_predictors, mean_predictors), collapse = " + ")
 f_women <- as.formula(paste(
   "lsat_binary ~",
   role_predictors,
-  " + age_std + age_sp_std + age_std_sq + age_sp_std_sq + educ + educ_sp +
-  hukou + hukou_sp + migrant + migrant_sp + chronic + chronic_sp +
-  cohabit + n_children + homeownership + hh_income_p_log +",
+  " + age_h_std + age_w_std + age_h_std_sq + age_w_std_sq + educ_h + educ_w +
+  hukou_h + hukou_w + migrant_h + migrant_w + chronic_h + chronic_w +
+  n_children + homeownership + hh_income_p_log +",
   "(1 | pid)"
 ))
 
 f_men <- as.formula(paste(
   "lsat_sp_binary ~",
   role_predictors,
-  " + age_std + age_sp_std + age_std_sq + age_sp_std_sq + educ + educ_sp +
-  hukou + hukou_sp + migrant + migrant_sp + chronic + chronic_sp +
-  cohabit + n_children + homeownership + hh_income_p_log +",
+  " + age_h_std + age_w_std + age_h_std_sq + age_w_std_sq + educ_h + educ_w +
+  hukou_h + hukou_w + migrant_h + migrant_w + chronic_h + chronic_w +
+  n_children + homeownership + hh_income_p_log +",
   "(1 | pid)"
 ))
 
