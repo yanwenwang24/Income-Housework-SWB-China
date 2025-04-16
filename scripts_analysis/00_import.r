@@ -13,46 +13,60 @@
 ## ------------------------------------------------------------------------
 
 # Load packages
-library(ggeffects)
-library(haven)
-library(janitor)
-library(jtools)
-library(lme4)
-library(patchwork)
-library(tidyverse)
+message("Loading required libraries...")
 
+# List of packages to check/install
+packages_to_install <- c(
+  "ggeffects",
+  "haven",
+  "janitor",
+  "jtools",
+  "lme4",
+  "patchwork",
+  "performance",
+  "tidyverse"
+)
+
+# Install if needed
+for (pkg in packages_to_install) {
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    install.packages(pkg)
+    message(sprintf("Installed package: %s", pkg))
+  }
+}
+
+# Load packages after installation
+invisible(lapply(packages_to_install, library, character.only = TRUE))
+message("Libraries loaded successfully.")
+
+# Set theme
 theme_set(theme_bw())
 
 # Load functions
 source("scripts_analysis/functions.r")
-message("✓ Functions loaded successfully.")
 
 # Load data
+message("Loading data...")
 cfps_1022 <- readRDS("data_clean/cfps_1022.rds") %>%
   filter(year != 2012) # Remove 2012 data for missing housework hours
-message("✓ Data imported successfully.")
+message("✓ Data loaded successfully.")
 
 # Source all analysis scripts in order
 message("\n--- Running analysis scripts ---\n")
 
-# 01_sample.r - Sample selection
+# Sample selection
 source("scripts_analysis/01_sample.r")
-message("✓ Sample selection completed.")
 
-# 02_variable.r - Variable construction
+# Variable construction
 source("scripts_analysis/02_variable.r")
-message("✓ Variable construction completed.")
 
-# 03_describe.r - Descriptive statistics
+# Descriptive statistics
 source("scripts_analysis/03_describe.r")
-message("✓ Descriptive statistics completed.")
 
-# 04_model.r - Model
+# Model
 source("scripts_analysis/04_model.r")
-message("✓ Model completed.")
 
-# 05_plot.r - Plot results
+# Plot results
 source("scripts_analysis/05_plot.r")
-message("✓ Plot results completed.")
 
 message("\n--- All analysis scripts ran successfully ---\n")
