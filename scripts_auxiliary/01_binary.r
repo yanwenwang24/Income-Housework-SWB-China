@@ -93,6 +93,7 @@ f_men <- as.formula(paste(
 
 # 2.2 Fit models ----------------------------------------------------------
 
+message("Fitting models with binary dependent variables...")
 mod_women <- glmer(f_women, data = sample_df, family = "binomial", nAGQ = 1)
 mod_men <- glmer(f_men, data = sample_df, family = "binomial", nAGQ = 1)
 
@@ -110,9 +111,11 @@ saveRDS(
     mod_women = mod_women,
     mod_men = mod_men
   ),
-  "models/mods_binary.rds"
+  "outputs/models/mods_binary.rds"
 )
 
 # Read models
-mod_women <- readRDS("models/mods_binary.rds")$mod_women
-mod_men <- readRDS("models/mods_binary.rds")$mod_men
+# mod_women <- readRDS("outputs/models/mods_binary.rds")$mod_women # nolint
+# mod_men <- readRDS("models/mods_binary.rds")$mod_men # nolint
+
+message("✓ Models saved.")
