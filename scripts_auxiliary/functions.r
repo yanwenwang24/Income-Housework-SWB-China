@@ -12,7 +12,16 @@
 ##
 ## ------------------------------------------------------------------------
 
-# Sample restriction
+message("Loading functions...")
+
+# Sample restriction ------------------------------------------------------
+
+#' Apply a series of filtering steps to a dataset with detailed reporting
+#'
+#' @param data A data.frame containing the dataset to be filtered
+#' @param steps A list of filtering steps, where each step is a list containing:
+#'
+#' @return The filtered dataset after applying all filtering steps
 restrict_sample <- function(data, steps) {
   # Initialize variables
   initial_obs <- nrow(data)
@@ -61,6 +70,44 @@ restrict_sample <- function(data, steps) {
   data
 }
 
+# Process imputed data ----------------------------------------------------
+
+#' Process and prepare imputed data for hybrid model analysis
+#'
+#' This function processes imputed data by applying filters, constructing
+#' role-based variables, and preparing the data for hybrid model analysis.
+#' It handles income and housework roles, creates dummy variables, and
+#' calculates within-couple means and deviations.
+#'
+#' @param d A data.frame containing the imputed dataset with required columns:
+#'   \itemize{
+#'     \item{housework_hour_h, housework_hour_w: Housework hours}
+#'     \item{income_h, income_w: Income for husband and wife}
+#'     \item{lsat_h, lsat_w: Life satisfaction scores}
+#'     \item{age_h, age_w: Age of husband and wife}
+#'     \item{educ_h, educ_w: Education level}
+#'     \item{hukou_h, hukou_w: Hukou status}
+#'     \item{migrant_h, migrant_w: Migrant status}
+#'     \item{chronic_h, chronic_w: Chronic conditions}
+#'     \item{n_children: Number of children}
+#'     \item{homeownership: Home ownership status}
+#'     \item{hh_income_p_log: Log of household income per capita}
+#'     \item{pid: Person identifier}
+#'     \item{year: Year of observation}
+#'   }
+#'
+#' @return A processed data.frame with transformations:
+#'   \itemize{
+#'     \item{Filtered observations (non-missing, positive housework/income)}
+#'     \item{Capped income and housework hours at 99th percentile}
+#'     \item{Created income and housework role variables (Trad/Egal/NonTrad)}
+#'     \item{Created combined role variable (e.g., "Trad-Egal")}
+#'     \item{Standardized age variables and squared terms}
+#'     \item{Factored education and number of children}
+#'     \item{Created dummy variables for combined roles}
+#'     \item{Calculated within-couple means and deviations}
+#'   }
+#'
 process_imputed_data <- function(d) {
   # Apply filters based on imputed values
   d_filtered <- d %>%
@@ -273,3 +320,5 @@ process_imputed_data <- function(d) {
 
   d_selected
 }
+
+message("✓ Functions loaded successfully.")
