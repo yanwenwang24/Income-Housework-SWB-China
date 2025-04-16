@@ -178,6 +178,8 @@ saveRDS(
 
 message("✓ Imputed missing values.")
 
+mice_obj <- readRDS("outputs/models/mice_obj.rds")
+
 # 3 Post-imputation processing --------------------------------------------
 
 message("Processing imputed data...")
@@ -197,6 +199,22 @@ processed_long_df <- long_df %>%
 
 # Check before modeling
 cat("Dimensions of processed long data:", dim(processed_long_df), "\n")
+cat(
+  "Average number of observations per imputation:",
+  mean(count(processed_long_df, .imp)$n),
+  "\n"
+)
+cat(
+  "Average number of unique couples per imputation:",
+  processed_long_df %>%
+    group_by(.imp) %>%
+    summarize(
+      n = n_distinct(pid)
+    ) %>%
+    pull(n) %>%
+    mean(),
+  "\n"
+)
 cat("Unique imputation numbers:", unique(processed_long_df$.imp), "\n")
 
 message("✓ Processed imputed data.")
