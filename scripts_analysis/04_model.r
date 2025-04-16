@@ -121,7 +121,7 @@ saveRDS(
 )
 
 # Read models
-# mod_women <- readRDS("models/mods.rds")$mod_women # nolint
+# mod_women <- readRDS("outputs/models/mods.rds")$mod_women # nolint
 # mod_men <- readRDS("models/mods.rds")$mod_men # nolint
 
 message("✓ Models saved.")
