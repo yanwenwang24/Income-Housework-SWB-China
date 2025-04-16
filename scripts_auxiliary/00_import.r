@@ -13,39 +13,53 @@
 ## ------------------------------------------------------------------------
 
 # Load packages
-library(broom)
-library(ggeffects)
-library(haven)
-library(janitor)
-library(jtools)
-library(lme4)
-library(mice)
-library(patchwork)
-library(tidyverse)
+message("Loading required libraries...")
 
+# List of packages to check/install
+packages_to_install <- c(
+  "broom",
+  "ggeffects",
+  "haven",
+  "janitor",
+  "jtools",
+  "lme4",
+  "mice",
+  "patchwork",
+  "performance",
+  "tidyverse"
+)
+
+# Install if needed
+for (pkg in packages_to_install) {
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    install.packages(pkg)
+    message(sprintf("Installed package: %s", pkg))
+  }
+}
+
+# Load packages after installation
+invisible(lapply(packages_to_install, library, character.only = TRUE))
+message("Libraries loaded successfully.")
+
+# Set theme
 theme_set(theme_bw())
 
 # Load functions
 source("scripts_auxiliary/functions.r")
-message("✓ Functions loaded successfully.")
 
 # Source all auxiliary scripts in order
 message("\n--- Running auxiliary scripts ---\n")
 
-# 01_binary.r - Binary models
+# Models with binary dependent variables
 source("scripts_auxiliary/01_binary.r")
-message("✓ Binary models completed.")
 
-# 02_threshold.r - Models with alternative thresholds
+# Models with alternative thresholds
 source("scripts_auxiliary/02_threshold.r")
-message("✓ Models with alternative thresholds completed.")
 
-# 03_dual_earner.r - Dual-earner
+# Dual-earner
 source("scripts_auxiliary/03_dual_earner.r")
-message("✓ Dual-earner analysis completed.")
 
-# 04_impute.r - Impute missing values
+# Impute missing values
 source("scripts_auxiliary/04_impute.r")
-message("✓ Imputation completed.")
 
 message("\n--- All auxiliary scripts ran successfully ---\n")
