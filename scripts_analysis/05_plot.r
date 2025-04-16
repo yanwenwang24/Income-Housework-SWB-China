@@ -14,7 +14,7 @@
 
 # 1 Load data --------------------------------------------------------------
 
-pred_df <- readRDS("outputs/pred_lsat.rds")
+pred_df <- readRDS("outputs/tables/pred_lsat.rds")
 
 # 2 Plot -------------------------------------------------------------------
 
@@ -55,9 +55,11 @@ plot_lsat <- ggplot(
 
 # Save plot
 ggsave(
-  "outputs/pred_lsat.png",
+  "outputs/figures/pred_lsat.png",
   plot_lsat,
   width = 10,
   height = 6,
   dpi = 300
 )
+
+message("✓ Plot saved.")
