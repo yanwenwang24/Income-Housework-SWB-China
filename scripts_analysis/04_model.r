@@ -98,6 +98,8 @@ f_men <- as.formula(paste(
 
 # 2.2 Fit models ----------------------------------------------------------
 
+message("Fitting models...")
+
 mod_women <- lmer(f_women, data = sample_df)
 mod_men <- lmer(f_men, data = sample_df)
 
@@ -115,14 +117,18 @@ saveRDS(
     mod_women = mod_women,
     mod_men = mod_men
   ),
-  "models/mods.rds"
+  "outputs/models/mods.rds"
 )
 
 # Read models
 # mod_women <- readRDS("models/mods.rds")$mod_women # nolint
 # mod_men <- readRDS("models/mods.rds")$mod_men # nolint
 
+message("✓ Models saved.")
+
 # 3 Prediction ------------------------------------------------------------
+
+message("Generating predictions...")
 
 # 3.1 Predictions for women -----------------------------------------------
 
@@ -232,5 +238,7 @@ pred_df <- bind_rows(pred_women, pred_men) %>%
 
 saveRDS(
   pred_df,
-  "outputs/pred_lsat.rds"
+  "outputs/tables/pred_lsat.rds"
 )
+
+message("✓ Predictions saved.")
