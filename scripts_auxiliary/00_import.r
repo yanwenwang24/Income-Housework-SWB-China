@@ -14,7 +14,6 @@
 
 # Load packages
 library(broom)
-library(fixest)
 library(ggeffects)
 library(haven)
 library(janitor)
@@ -45,12 +44,8 @@ message("✓ Models with alternative thresholds completed.")
 source("scripts_auxiliary/03_dual_earner.r")
 message("✓ Dual-earner analysis completed.")
 
-# 04_fixed.r - Fixed effects
-source("scripts_auxiliary/04_fixed.r")
-message("✓ Fixed effects analysis completed.")
-
-# 05_impute.r - Impute missing values
-source("scripts_auxiliary/05_impute.r")
+# 04_impute.r - Impute missing values
+source("scripts_auxiliary/04_impute.r")
 message("✓ Imputation completed.")
 
 message("\n--- All auxiliary scripts ran successfully ---\n")
