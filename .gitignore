@@ -5,5 +5,3 @@
 # Data, models, and outputs
 data_raw/
 data_clean/
-outputs/models/
-outputs/tables/
