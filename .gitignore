@@ -5,5 +5,5 @@
 # Data, models, and outputs
 data_raw/
 data_clean/
-models/
-outputs/**/*.rds
+outputs/models/
+outputs/tables/
