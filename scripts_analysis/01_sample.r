@@ -23,7 +23,8 @@
 ##
 ## ------------------------------------------------------------------------
 
-# Define filtering steps
+# 1 Define filtering steps -------------------------------------------------
+
 steps <- list(
   # Select women (since each relationship is identified twice)
   list(
@@ -113,3 +114,5 @@ steps <- list(
 
 # Apply stepwise restriction
 sample_df <- restrict_sample(cfps_1022, steps)
+
+message("✓ Sample selection completed.")
