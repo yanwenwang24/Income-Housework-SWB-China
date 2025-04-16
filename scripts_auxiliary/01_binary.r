@@ -97,8 +97,11 @@ message("Fitting models with binary dependent variables...")
 mod_women <- glmer(f_women, data = sample_df, family = "binomial", nAGQ = 1)
 mod_men <- glmer(f_men, data = sample_df, family = "binomial", nAGQ = 1)
 
-summ(mod_women, digits = 2)
-summ(mod_men, digits = 2)
+summary(mod_women)
+summary(mod_men)
+
+# summ(mod_women, digits = 3) # nolint
+# summ(mod_men, digits = 3) # nolint
 
 performance::check_collinearity(mod_women)
 performance::check_collinearity(mod_men)
@@ -116,6 +119,6 @@ saveRDS(
 
 # Read models
 # mod_women <- readRDS("outputs/models/mods_binary.rds")$mod_women # nolint
-# mod_men <- readRDS("models/mods_binary.rds")$mod_men # nolint
+# mod_men <- readRDS("outputs/models/mods_binary.rds")$mod_men # nolint
 
 message("✓ Models saved.")

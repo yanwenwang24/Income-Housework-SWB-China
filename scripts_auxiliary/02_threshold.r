@@ -140,8 +140,8 @@ message("Fitting models with alternative thresholds...")
 mod_women <- lmer(f_women, data = sample_df)
 mod_men <- lmer(f_men, data = sample_df)
 
-summ(mod_women, digits = 2)
-summ(mod_men, digits = 2)
+summ(mod_women, digits = 3)
+summ(mod_men, digits = 3)
 
 performance::check_collinearity(mod_women)
 performance::check_collinearity(mod_men)
