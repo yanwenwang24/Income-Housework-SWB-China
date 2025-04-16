@@ -98,7 +98,7 @@ f_men <- as.formula(paste(
 
 # 2.2 Fit models ----------------------------------------------------------
 
-message("Fitting models...")
+message("Fitting models with dual-earner couples only...")
 
 mod_women <- lmer(f_women, data = dual_earner_df)
 mod_men <- lmer(f_men, data = dual_earner_df)
