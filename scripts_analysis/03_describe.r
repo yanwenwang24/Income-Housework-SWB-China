@@ -124,3 +124,5 @@ tabyl(sample_df, homeownership) %>%
 # Household income per capita
 mean(sample_df$hh_income_p)
 sd(sample_df$hh_income_p)
+
+message("✓ Descriptive statistics generated.")

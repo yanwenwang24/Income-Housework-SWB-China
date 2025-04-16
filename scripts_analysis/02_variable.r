@@ -85,7 +85,7 @@ p_dist_income <- ggplot(
 
 # Save the plot
 ggsave(
-  "outputs/dist_income.png",
+  "outputs/figures/dist_income.png",
   p_dist_income,
   width = 8,
   height = 6,
@@ -154,7 +154,7 @@ p_dist_housework <- ggplot(
 
 # Save the plot
 ggsave(
-  "outputs/dist_housework.png",
+  "outputs/figures/dist_housework.png",
   p_dist_housework,
   width = 8,
   height = 6,
@@ -286,3 +286,6 @@ sample_df <- sample_df %>%
 
 # Save the sample
 saveRDS(sample_df, "data_clean/sample_df.rds")
+
+message("✓ Variable construction completed.")
+message("✓ Sample saved.")
