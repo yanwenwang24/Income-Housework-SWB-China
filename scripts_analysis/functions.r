@@ -12,7 +12,16 @@
 ##
 ## ------------------------------------------------------------------------
 
-# Sample restriction
+message("Loading functions...")
+
+# Sample restriction ------------------------------------------------------
+
+#' Apply a series of filtering steps to a dataset with detailed reporting
+#'
+#' @param data A data.frame containing the dataset to be filtered
+#' @param steps A list of filtering steps, where each step is a list containing:
+#'
+#' @return The filtered dataset after applying all filtering steps
 restrict_sample <- function(data, steps) {
   # Initialize variables
   initial_obs <- nrow(data)
@@ -60,3 +69,5 @@ restrict_sample <- function(data, steps) {
   # Return the filtered data
   data
 }
+
+message("✓ Functions loaded successfully.")
