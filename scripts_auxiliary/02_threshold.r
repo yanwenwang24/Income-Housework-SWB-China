@@ -19,6 +19,7 @@
 
 # Load data
 sample_df <- readRDS("data_clean/sample_df.rds")
+
 # Define thresholds
 low_band <- 0.40
 high_band <- 0.60
@@ -134,6 +135,8 @@ f_men <- as.formula(paste(
 
 # 2.2 Fit models ----------------------------------------------------------
 
+message("Fitting models with alternative thresholds...")
+
 mod_women <- lmer(f_women, data = sample_df)
 mod_men <- lmer(f_men, data = sample_df)
 
@@ -151,168 +154,11 @@ saveRDS(
     mod_women = mod_women,
     mod_men = mod_men
   ),
-  "models/mods_threshold.rds"
+  "outputs/models/mods_threshold.rds"
 )
 
 # Read models
-mod_women <- readRDS("models/mods_threshold.rds")$mod_women
-mod_men <- readRDS("models/mods_threshold.rds")$mod_men
+# mod_women <- readRDS("outputs/models/mods_threshold.rds")$mod_women # nolint
+# mod_men <- readRDS("outputs/models/mods_threshold.rds")$mod_men # nolint
 
-# 3 Prediction ------------------------------------------------------------
-
-# 3.1 Predictions for women -----------------------------------------------
-
-# Extract predictors of interest
-mean_predictors <- names(coef(mod_women)$pid) %>%
-  str_subset("_mean$") %>%
-  str_subset("^combined_role")
-
-# Calculate predictions
-pred_women_list <- map(
-  mean_predictors,
-  ~ {
-    term_formula <- paste0(.x, " [0, 1]")
-    ggpredict(mod_women, terms = term_formula) %>%
-      as.data.frame() %>%
-      mutate(role = .x)
-  }
-)
-
-all_preds_women <- bind_rows(pred_women_list)
-
-# Process predictions: reference level
-baseline_women <- all_preds_women %>%
-  filter(x == 0) %>%
-  arrange(predicted) %>%
-  slice(1) %>%
-  mutate(role = "Egal/Egal") %>%
-  select(role, predicted, std.error, conf.low, conf.high)
-
-# Process predictions: other levels
-level_women <- all_preds_women %>%
-  filter(x == 1) %>% # Only keep the prediction for each level
-  mutate(
-    role = role %>%
-      str_remove("_mean$") %>%
-      str_remove("^combined_role") %>%
-      str_replace_all("\\.", "/")
-  ) %>%
-  select(role, predicted, std.error, conf.low, conf.high)
-
-# Combine reference and other levels
-pred_women <- bind_rows(baseline_women, level_women) %>%
-  mutate(gender = "women")
-
-# 3.2 Predictions for men -------------------------------------------------
-
-# Extract predictors of interest
-mean_predictors <- names(coef(mod_men)$pid) %>%
-  str_subset("_mean$") %>%
-  str_subset("^combined_role")
-
-# Calculate predictions
-pred_men_list <- map(
-  mean_predictors,
-  ~ {
-    term_formula <- paste0(.x, " [0, 1]")
-    ggpredict(mod_men, terms = term_formula) %>%
-      as.data.frame() %>%
-      mutate(role = .x)
-  }
-)
-
-all_preds_men <- bind_rows(pred_men_list)
-
-# Process predictions: reference level
-baseline_men <- all_preds_men %>%
-  filter(x == 0) %>%
-  arrange(predicted) %>%
-  slice(1) %>%
-  mutate(role = "Egal/Egal") %>%
-  select(role, predicted, std.error, conf.low, conf.high)
-
-# Process predictions: other levels
-level_men <- all_preds_men %>%
-  filter(x == 1) %>% # Only keep the prediction for each level
-  mutate(
-    role = role %>%
-      str_remove("_mean$") %>%
-      str_remove("^combined_role") %>%
-      str_replace_all("\\.", "/")
-  ) %>%
-  select(role, predicted, std.error, conf.low, conf.high)
-
-# Combine reference and other levels
-pred_men <- bind_rows(baseline_men, level_men) %>%
-  mutate(gender = "men")
-
-# 3.3 Save predictions ----------------------------------------------------
-
-pred_df <- bind_rows(pred_women, pred_men) %>%
-  mutate(
-    role = factor(
-      role,
-      levels = c(
-        "Egal/Egal",
-        "Egal/Trad",
-        "Egal/NonTrad",
-        "Trad/Egal",
-        "Trad/Trad",
-        "Trad/NonTrad",
-        "NonTrad/Egal",
-        "NonTrad/Trad",
-        "NonTrad/NonTrad"
-      )
-    )
-  )
-
-saveRDS(
-  pred_df,
-  "outputs/pred_threshold.rds"
-)
-
-# 4 Plot ------------------------------------------------------------------
-
-# Reference bands
-ref_bands <- pred_df %>%
-  filter(role == "Egal/Egal") %>%
-  select(gender, conf.low, conf.high) %>%
-  rename(ref_low = conf.low, ref_high = conf.high) %>%
-  mutate(x_min = 1, x_max = nlevels(pred_df$role))
-
-plot_threshold <- ggplot(
-  pred_df,
-  aes(x = role)
-) +
-  geom_rect(
-    data = ref_bands,
-    aes(
-      xmin = x_min, xmax = x_max,
-      ymin = ref_low, ymax = ref_high,
-      x = NULL
-    ),
-    fill = "lightgray",
-    alpha = 0.6,
-    inherit.aes = FALSE
-  ) +
-  geom_point(aes(y = predicted), size = 2.5) +
-  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.25) +
-  facet_wrap(~gender) +
-  labs(
-    x = "Household role (income/housework)",
-    y = "Predicted life satisfaction"
-  ) +
-  theme(
-    axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
-    panel.grid.major.x = element_blank(),
-    panel.grid.minor = element_blank()
-  )
-
-# Save plot
-ggsave(
-  "outputs/pred_threshold.png",
-  plot_threshold,
-  width = 10,
-  height = 6,
-  dpi = 300
-)
+message("✓ Models saved.")
