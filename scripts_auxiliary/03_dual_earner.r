@@ -98,6 +98,8 @@ f_men <- as.formula(paste(
 
 # 2.2 Fit models ----------------------------------------------------------
 
+message("Fitting models...")
+
 mod_women <- lmer(f_women, data = dual_earner_df)
 mod_men <- lmer(f_men, data = dual_earner_df)
 
@@ -115,9 +117,11 @@ saveRDS(
     mod_women = mod_women,
     mod_men = mod_men
   ),
-  "models/mods_dual_earner.rds"
+  "outputs/models/mods_dual_earner.rds"
 )
 
 # Read models
-mod_women <- readRDS("models/mods_dual_earner.rds")$mod_women
-mod_men <- readRDS("models/mods_dual_earner.rds")$mod_men
+# mod_women <- readRDS("outputs/models/mods_dual_earner.rds")$mod_women # nolint
+# mod_men <- readRDS("outputs/models/mods_dual_earner.rds")$mod_men # nolint
+
+message("✓ Models saved.")
