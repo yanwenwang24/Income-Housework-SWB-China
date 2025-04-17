@@ -208,6 +208,14 @@ process_imputed_data <- function(d) {
     ) %>%
     # Filter out rows where combined_role is NA
     filter(!is.na(combined_role)) %>%
+    # Identify dual earners
+    mutate(
+      dual_earner = if_else(
+        income_h > 0 & income_w > 0,
+        1,
+        0
+      )
+    ) %>%
     # Other Variables (standardization, factoring)
     mutate(
       year = factor(year),
@@ -311,7 +319,8 @@ process_imputed_data <- function(d) {
     "chronic_h", "chronic_w",
     "n_children",
     "homeownership",
-    "hh_income_p_log"
+    "hh_income_p_log",
+    "dual_earner"
   )
 
   # Select ONLY the necessary columns, ensuring order/presence

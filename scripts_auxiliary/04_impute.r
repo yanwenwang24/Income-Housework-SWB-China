@@ -178,7 +178,7 @@ saveRDS(
 
 message("✓ Imputed missing values.")
 
-mice_obj <- readRDS("outputs/models/mice_obj.rds")
+# mice_obj <- readRDS("outputs/models/mice_obj.rds") # nolint
 
 # 3 Post-imputation processing --------------------------------------------
 
@@ -216,7 +216,9 @@ cat(
   "\n"
 )
 cat("Unique imputation numbers:", unique(processed_long_df$.imp), "\n")
-
+processed_long_df %>%
+  count(dual_earner) %>%
+  print()
 message("✓ Processed imputed data.")
 
 # 4 Modeling --------------------------------------------------------------
@@ -295,11 +297,11 @@ mod_women_fits <- mod_women_fits[!sapply(mod_women_fits, is.null)]
 mod_men_fits <- mod_men_fits[!sapply(mod_men_fits, is.null)]
 
 message(
-  "Successfully fitted models for",
+  "Successfully fitted models for ",
   length(mod_women_fits),
-  "women's datasets and",
+  " women's datasets and ",
   length(mod_men_fits),
-  "men's datasets."
+  " men's datasets."
 )
 
 # 4.3 Pool results --------------------------------------------------------
