@@ -22,11 +22,11 @@
 
 # 1 Prepare data ----------------------------------------------------------
 
-# 1.1 Create dummy variables for combined_role ----------------------------
+# 1.1 Create dummy variables for role ----------------------------
 
 # Create dummy variables
 role_dummies_mat <- model.matrix(
-  ~combined_role,
+  ~role,
   data = sample_df
 )[, -1, drop = FALSE]
 
@@ -68,12 +68,12 @@ for (col_name in dummy_col_names) {
 # 2.1 Define formula ------------------------------------------------------
 
 dev_predictors <- names(sample_df)[
-  startsWith(names(sample_df), "dev_combined_role")
+  startsWith(names(sample_df), "dev_role")
 ]
 
 mean_predictors <- names(sample_df)[
   endsWith(names(sample_df), "_mean") &
-    startsWith(names(sample_df), "combined_role")
+    startsWith(names(sample_df), "role")
 ]
 
 role_predictors <- paste(c(dev_predictors, mean_predictors), collapse = " + ")
@@ -135,7 +135,7 @@ message("Generating predictions...")
 # Extract predictors of interest
 mean_predictors <- names(coef(mod_women)$pid) %>%
   str_subset("_mean$") %>%
-  str_subset("^combined_role")
+  str_subset("^role")
 
 # Calculate predictions
 pred_women_list <- map(
@@ -164,7 +164,7 @@ level_women <- all_preds_women %>%
   mutate(
     role = role %>%
       str_remove("_mean$") %>%
-      str_remove("^combined_role") %>%
+      str_remove("^role") %>%
       str_replace_all("\\.", "/")
   ) %>%
   select(role, predicted, std.error, conf.low, conf.high)
@@ -178,7 +178,7 @@ pred_women <- bind_rows(baseline_women, level_women) %>%
 # Extract predictors of interest
 mean_predictors <- names(coef(mod_men)$pid) %>%
   str_subset("_mean$") %>%
-  str_subset("^combined_role")
+  str_subset("^role")
 
 # Calculate predictions
 pred_men_list <- map(
@@ -207,7 +207,7 @@ level_men <- all_preds_men %>%
   mutate(
     role = role %>%
       str_remove("_mean$") %>%
-      str_remove("^combined_role") %>%
+      str_remove("^role") %>%
       str_replace_all("\\.", "/")
   ) %>%
   select(role, predicted, std.error, conf.low, conf.high)

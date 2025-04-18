@@ -165,7 +165,7 @@ ggsave(
 
 sample_df <- sample_df %>%
   mutate(
-    combined_role = paste(income_role, housework_role, sep = "-")
+    role = paste(income_role, housework_role, sep = "-")
   ) %>%
   mutate(
     income_role = factor(
@@ -184,8 +184,8 @@ sample_df <- sample_df %>%
         "NonTrad"
       )
     ),
-    combined_role = factor(
-      combined_role,
+    role = factor(
+      role,
       levels = c(
         "Egal-Egal",
         "Egal-Trad",

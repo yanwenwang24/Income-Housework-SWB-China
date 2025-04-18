@@ -27,7 +27,7 @@ sample_df %>%
 
 # 2 Income and housework roles --------------------------------------------
 
-tabyl(sample_df, combined_role) %>%
+tabyl(sample_df, role) %>%
   arrange(desc(n)) %>%
   adorn_pct_formatting(2)
 
