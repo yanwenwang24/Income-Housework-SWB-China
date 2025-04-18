@@ -5,3 +5,5 @@
 # Data, models, and outputs
 data/raw/
 data/processed/
+outputs/models/
+outputs/tables/
