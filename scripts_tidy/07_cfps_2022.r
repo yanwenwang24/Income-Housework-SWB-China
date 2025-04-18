@@ -16,9 +16,9 @@
 
 message("Cleaning 2022 CFPS data...")
 
-cfps_2022_person <- read_stata("data_raw/cfps_2022_person.dta")
-cfps_2022_family <- read_stata("data_raw/cfps_2022_family.dta")
-cfps_2022_roster <- read_stata("data_raw/cfps_2022_roster.dta")
+cfps_2022_person <- read_stata("data/raw/cfps_2022_person.dta")
+cfps_2022_family <- read_stata("data/raw/cfps_2022_family.dta")
+cfps_2022_roster <- read_stata("data/raw/cfps_2022_roster.dta")
 
 # 2 Individual variables --------------------------------------------------
 

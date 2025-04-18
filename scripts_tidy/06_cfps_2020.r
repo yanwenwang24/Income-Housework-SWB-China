@@ -16,9 +16,9 @@
 
 message("Cleaning 2020 CFPS data...")
 
-cfps_2020_person <- read_stata("data_raw/cfps_2020_person.dta")
-cfps_2020_family <- read_stata("data_raw/cfps_2020_family.dta")
-cfps_2020_roster <- read_stata("data_raw/cfps_2020_roster.dta")
+cfps_2020_person <- read_stata("data/raw/cfps_2020_person.dta")
+cfps_2020_family <- read_stata("data/raw/cfps_2020_family.dta")
+cfps_2020_roster <- read_stata("data/raw/cfps_2020_roster.dta")
 
 # 2 Individual variables --------------------------------------------------
 

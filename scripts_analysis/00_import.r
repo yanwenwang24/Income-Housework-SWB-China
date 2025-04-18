@@ -47,7 +47,7 @@ source("scripts_analysis/functions.r")
 
 # Load data
 message("Loading data...")
-cfps_1022 <- readRDS("data_clean/cfps_1022.rds") %>%
+cfps_1022 <- readRDS("data/processed/cfps_1022.rds") %>%
   filter(year != 2012) # Remove 2012 data for missing housework hours
 message("✓ Data loaded successfully.")
 

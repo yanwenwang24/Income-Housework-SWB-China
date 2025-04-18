@@ -17,7 +17,7 @@
 # 1.1 Create sample --------------------------------------------------------
 
 # Load data
-sample_df <- readRDS("data_clean/sample_df.rds")
+sample_df <- readRDS("data/processed/sample_df.rds")
 
 dual_earner_df <- sample_df %>%
   filter(income > 0 & income_sp > 0)

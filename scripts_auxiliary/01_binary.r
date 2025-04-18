@@ -17,7 +17,7 @@
 # 1.1 Create dummy variables for combined_role ----------------------------
 
 # Load data
-sample_df <- readRDS("data_clean/sample_df.rds")
+sample_df <- readRDS("data/processed/sample_df.rds")
 
 # Create dummy variables
 role_dummies_mat <- model.matrix(

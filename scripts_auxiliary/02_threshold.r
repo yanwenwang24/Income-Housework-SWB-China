@@ -18,7 +18,7 @@
 # 1.1 Apply different thresholds ------------------------------------------
 
 # Load data
-sample_df <- readRDS("data_clean/sample_df.rds")
+sample_df <- readRDS("data/processed/sample_df.rds")
 
 # Define thresholds
 low_band <- 0.40

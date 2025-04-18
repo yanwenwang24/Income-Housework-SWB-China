@@ -3,5 +3,5 @@
 .vscode
 
 # Data, models, and outputs
-data_raw/
-data_clean/
+data/raw/
+data/processed/

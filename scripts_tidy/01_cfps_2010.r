@@ -16,8 +16,8 @@
 
 message("Cleaning 2010 CFPS data...")
 
-cfps_2010_adult <- read_stata("data_raw/cfps_2010_adult.dta")
-cfps_2010_family <- read_stata("data_raw/cfps_2010_family.dta")
+cfps_2010_adult <- read_stata("data/raw/cfps_2010_adult.dta")
+cfps_2010_family <- read_stata("data/raw/cfps_2010_family.dta")
 
 # 2 Individual variables --------------------------------------------------
 

@@ -285,7 +285,7 @@ sample_df <- sample_df %>%
 # 5 Save ------------------------------------------------------------------
 
 # Save the sample
-saveRDS(sample_df, "data_clean/sample_df.rds")
+saveRDS(sample_df, "data/processed/sample_df.rds")
 
 message("✓ Variable construction completed.")
 message("✓ Sample saved.")

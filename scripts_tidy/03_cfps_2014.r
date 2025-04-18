@@ -16,9 +16,9 @@
 
 message("Cleaning 2014 CFPS data...")
 
-cfps_2014_adult <- read_stata("data_raw/cfps_2014_adult.dta")
-cfps_2014_family <- read_stata("data_raw/cfps_2014_family.dta")
-cfps_2014_roster <- read_stata("data_raw/cfps_2014_roster.dta")
+cfps_2014_adult <- read_stata("data/raw/cfps_2014_adult.dta")
+cfps_2014_family <- read_stata("data/raw/cfps_2014_family.dta")
+cfps_2014_roster <- read_stata("data/raw/cfps_2014_roster.dta")
 
 # 2 Individual variables --------------------------------------------------
 

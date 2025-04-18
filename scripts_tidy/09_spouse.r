@@ -75,6 +75,6 @@ message("✓ Added spouse variables")
 
 # 2 Save merged data ------------------------------------------------------
 
-saveRDS(cfps_1022, "data_clean/cfps_1022.rds")
+saveRDS(cfps_1022, "data/processed/cfps_1022.rds")
 
 message("✓ Saved merged data")
