@@ -9,7 +9,7 @@
 ## ------------------------------------------------------------------------
 ##
 ## Notes:
-## 0.35 and 0.65 are the thresholds for the income/housework role
+## 0.4 and 0.60 are alternative thresholds for the income/housework role
 ##
 ## ------------------------------------------------------------------------
 
@@ -42,9 +42,9 @@ sample_df <- sample_df %>%
     )
   ) %>%
   mutate(
-    combined_role = paste(income_role, housework_role, sep = "-"),
-    combined_role = factor(
-      combined_role,
+    role = paste(income_role, housework_role, sep = "-"),
+    role = factor(
+      role,
       levels = c(
         "Egal-Egal",
         "Egal-Trad",
@@ -59,11 +59,11 @@ sample_df <- sample_df %>%
     )
   )
 
-# 1.2 Create dummy variables for combined_role ----------------------------
+# 1.2 Create dummy variables for role ----------------------------
 
 # Create dummy variables
 role_dummies_mat <- model.matrix(
-  ~combined_role,
+  ~role,
   data = sample_df
 )[, -1, drop = FALSE]
 
@@ -105,12 +105,12 @@ for (col_name in dummy_col_names) {
 # 2.1 Define formula ------------------------------------------------------
 
 dev_predictors <- names(sample_df)[
-  startsWith(names(sample_df), "dev_combined_role")
+  startsWith(names(sample_df), "dev_role")
 ]
 
 mean_predictors <- names(sample_df)[
   endsWith(names(sample_df), "_mean") &
-    startsWith(names(sample_df), "combined_role")
+    startsWith(names(sample_df), "role")
 ]
 
 role_predictors <- paste(c(dev_predictors, mean_predictors), collapse = " + ")

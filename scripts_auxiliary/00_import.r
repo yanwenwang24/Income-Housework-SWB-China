@@ -56,10 +56,13 @@ source("scripts_auxiliary/01_binary.r")
 # Models with alternative thresholds
 source("scripts_auxiliary/02_threshold.r")
 
+# Exclusion bands
+source("scripts_auxiliary/03_delta.r")
+
 # Dual-earner
-source("scripts_auxiliary/03_dual_earner.r")
+source("scripts_auxiliary/04_dual_earner.r")
 
 # Impute missing values
-source("scripts_auxiliary/04_impute.r")
+source("scripts_auxiliary/05_impute.r")
 
 message("\n--- All auxiliary scripts ran successfully ---\n")

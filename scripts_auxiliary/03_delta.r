@@ -1,14 +1,14 @@
 ## ------------------------------------------------------------------------
 ##
-## Script name: 01_dual_earner.r
-## Purpose: Dual-earner analysis
+## Script name: 03_delta.r
+## Purpose: Remove samples within exclusion bands
 ## Author: Yanwen Wang
-## Date Created: 2025-04-06
+## Date Created: 2025-04-18
 ## Email: yanwenwang@u.nus.edu
 ##
 ## ------------------------------------------------------------------------
 ##
-## Notes: Focus on dual-earner couples
+## Notes: Remove couples within exclusion bands
 ##
 ## ------------------------------------------------------------------------
 
@@ -19,28 +19,40 @@
 # Load data
 sample_df <- readRDS("data/processed/sample_df.rds")
 
-dual_earner_df <- sample_df %>%
-  filter(income > 0 & income_sp > 0)
+# Set exclusion band
+delta <- 0.02
 
-# 1.2 Create dummy variables for combined_role ----------------------------
+sample_df <- sample_df %>%
+  filter(
+    (income_w_prop < 0.35 - delta) |
+      (income_w_prop > 0.35 + delta & income_w_prop < 0.65 - delta) |
+      (income_w_prop > 0.65 + delta)
+  ) %>%
+  filter(
+    housework_w_prop < 0.35 - delta |
+      (housework_w_prop > 0.35 + delta & housework_w_prop < 0.65 - delta) |
+      housework_w_prop > 0.65 + delta
+  )
+
+# 1.2 Create dummy variables for role ----------------------------
 
 # Create dummy variables
 role_dummies_mat <- model.matrix(
-  ~combined_role,
-  data = dual_earner_df
+  ~role,
+  data = sample_df
 )[, -1, drop = FALSE]
 
 # Clean up names
 dummy_col_names <- make.names(colnames(role_dummies_mat))
 colnames(role_dummies_mat) <- dummy_col_names
 
-# Add to dual_earner_df
-dual_earner_df <- cbind(dual_earner_df, role_dummies_mat)
+# Add to sample_df
+sample_df <- cbind(sample_df, role_dummies_mat)
 
 # 1.3 Calculate mean and deviation ----------------------------------------
 
 # Within-couple means (time spent in each role category)
-mean_vars <- dual_earner_df %>%
+mean_vars <- sample_df %>%
   group_by(pid) %>%
   summarise(
     across(
@@ -51,15 +63,15 @@ mean_vars <- dual_earner_df %>%
   ) %>%
   ungroup()
 
-# Join with dual_earner_df
-dual_earner_df <- dual_earner_df %>%
+# Join with sample_df
+sample_df <- sample_df %>%
   left_join(mean_vars, by = "pid")
 
 # Deviation from within-couple means (change over time)
 for (col_name in dummy_col_names) {
   mean_col_name <- paste0(col_name, "_mean")
   dev_col_name <- paste0("dev_", col_name)
-  dual_earner_df <- dual_earner_df %>%
+  sample_df <- sample_df %>%
     mutate(!!dev_col_name := .data[[col_name]] - .data[[mean_col_name]])
 }
 
@@ -67,13 +79,13 @@ for (col_name in dummy_col_names) {
 
 # 2.1 Define formula ------------------------------------------------------
 
-dev_predictors <- names(dual_earner_df)[
-  startsWith(names(dual_earner_df), "dev_combined_role")
+dev_predictors <- names(sample_df)[
+  startsWith(names(sample_df), "dev_role")
 ]
 
-mean_predictors <- names(dual_earner_df)[
-  endsWith(names(dual_earner_df), "_mean") &
-    startsWith(names(dual_earner_df), "combined_role")
+mean_predictors <- names(sample_df)[
+  endsWith(names(sample_df), "_mean") &
+    startsWith(names(sample_df), "role")
 ]
 
 role_predictors <- paste(c(dev_predictors, mean_predictors), collapse = " + ")
@@ -98,10 +110,10 @@ f_men <- as.formula(paste(
 
 # 2.2 Fit models ----------------------------------------------------------
 
-message("Fitting models with dual-earner couples only...")
+message("Fitting models with samples within exclusion bands removed...")
 
-mod_women <- lmer(f_women, data = dual_earner_df)
-mod_men <- lmer(f_men, data = dual_earner_df)
+mod_women <- lmer(f_women, data = sample_df)
+mod_men <- lmer(f_men, data = sample_df)
 
 summ(mod_women, digits = 3)
 summ(mod_men, digits = 3)
@@ -117,7 +129,7 @@ saveRDS(
     mod_women = mod_women,
     mod_men = mod_men
   ),
-  "outputs/models/mods_dual_earner.rds"
+  "outputs/models/mods_exclude.rds"
 )
 
 # Read models

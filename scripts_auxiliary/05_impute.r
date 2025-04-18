@@ -1,9 +1,9 @@
 ## ------------------------------------------------------------------------
 ##
-## Script name: 02_impute.r
+## Script name: 05_impute.r
 ## Purpose: Impute missing values
 ## Author: Yanwen Wang
-## Date Created: 2025-04-06
+## Date Created: 2025-04-18
 ## Email: yanwenwang@u.nus.edu
 ##
 ## ------------------------------------------------------------------------
@@ -233,12 +233,12 @@ cat("Created list of", length(list_of_datasets), "datasets for modeling.\n")
 one_dataset <- list_of_datasets[[1]]
 
 dev_predictors <- names(one_dataset)[
-  startsWith(names(one_dataset), "dev_combined_role")
+  startsWith(names(one_dataset), "dev_role")
 ]
 
 mean_predictors <- names(one_dataset)[
   endsWith(names(one_dataset), "_mean") &
-    startsWith(names(one_dataset), "combined_role")
+    startsWith(names(one_dataset), "role")
 ]
 
 role_predictors <- paste(c(dev_predictors, mean_predictors), collapse = " + ")

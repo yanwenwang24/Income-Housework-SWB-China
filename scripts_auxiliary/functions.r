@@ -184,7 +184,7 @@ process_imputed_data <- function(d) {
     ) %>%
     # Combined Role
     mutate(
-      combined_role = if_else(
+      role = if_else(
         !is.na(income_role) & !is.na(housework_role),
         paste(income_role, housework_role, sep = "-"),
         NA_character_
@@ -197,8 +197,8 @@ process_imputed_data <- function(d) {
         housework_role,
         levels = c("Egal", "Trad", "NonTrad")
       ),
-      combined_role = factor(
-        combined_role,
+      role = factor(
+        role,
         levels = c(
           "Egal-Egal", "Egal-Trad", "Egal-NonTrad",
           "Trad-Egal", "Trad-Trad", "Trad-NonTrad",
@@ -206,8 +206,8 @@ process_imputed_data <- function(d) {
         )
       )
     ) %>%
-    # Filter out rows where combined_role is NA
-    filter(!is.na(combined_role)) %>%
+    # Filter out rows where role is NA
+    filter(!is.na(role)) %>%
     # Identify dual earners
     mutate(
       dual_earner = if_else(
@@ -249,9 +249,9 @@ process_imputed_data <- function(d) {
 
   # Prepare for Hybrid Model (Dummies, Means, Deviations)
   # Create dummy variables for the current imputation dataset
-  # Check if combined_role has any levels before creating matrix
-  if (n_distinct(d_processed$combined_role) > 1) {
-    role_dummies_mat <- model.matrix(~combined_role, data = d_processed)
+  # Check if role has any levels before creating matrix
+  if (n_distinct(d_processed$role) > 1) {
+    role_dummies_mat <- model.matrix(~role, data = d_processed)
     role_dummies_mat <- role_dummies_mat[, -1, drop = FALSE] # Drop intercept
     dummy_col_names <- make.names(colnames(role_dummies_mat))
     colnames(role_dummies_mat) <- dummy_col_names
@@ -283,14 +283,14 @@ process_imputed_data <- function(d) {
         )
     } else {
       warning(
-        "No dummy columns created for combined_role in this imputation.\n
+        "No dummy columns created for role in this imputation.\n
          Skipping mean/deviation calculation."
       )
       d_final <- d_processed
     }
   } else {
     warning(
-      "Only one level of combined_role present in this imputation.\n
+      "Only one level of role present in this imputation.\n
        Skipping dummy/mean/deviation calculation."
     )
     d_final <- d_processed
@@ -299,9 +299,9 @@ process_imputed_data <- function(d) {
 
   # Select necessary columns for modeling
   base_level <- "Egal-Egal"
-  role_levels <- levels(d_final$combined_role)
+  role_levels <- levels(d_final$role)
   non_base_levels <- setdiff(role_levels, base_level)
-  expected_dummy_names <- make.names(paste0("combined_role", non_base_levels))
+  expected_dummy_names <- make.names(paste0("role", non_base_levels))
   expected_mean_names <- paste0(expected_dummy_names, "_mean")
   expected_dev_names <- paste0("dev_", expected_dummy_names)
 
