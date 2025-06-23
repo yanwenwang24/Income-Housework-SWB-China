@@ -2,7 +2,7 @@
 
 Replication package
 
-Wang, Yanwen, Senhu Wang, and Zheng Mu. "Married Couples' Life Satisfaction and Gender Divisions of Income and Housework in China." *Journal of Family and Economic Issues*.
+Wang, Yanwen*, Senhu Wang, and Zheng Mu. Forthcoming. “Married Couples’ Life Satisfaction and Gender Divisions of Income and Housework in China.” *Journal of Family and Economic Issues*.
 
 ## Abstract
 
